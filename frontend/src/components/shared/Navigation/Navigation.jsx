@@ -7,7 +7,7 @@ const Navigation = () => {
         color: '#fff',
         textDecoration: 'none',
         fontWeight: 'bold',
-        fontSize: '25px',
+        fontSize: '22px',
         display: 'flex',
         alignItems: 'center',
     };
