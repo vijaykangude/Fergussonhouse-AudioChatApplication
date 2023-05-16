@@ -8,6 +8,9 @@ backend/node_modules
 backend/node_modules/*
 .pnp.js
 
+backend/storage/*
+.png
+
 # testing
 frontend/coverage
 
