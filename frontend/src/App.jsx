@@ -26,7 +26,7 @@ function App() {
 
 const GuestRoute = ({ children }) => {
     const { isAuth } = useSelector((state) => state.auth);
-    return isAuth ? <Activate /> : children;
+    return isAuth ? (<Navigate to="/activate" replace />) : children;
 };
 
 const SemiProtectedRoute = ({ children, ...rest }) => {

@@ -2,7 +2,6 @@ const otpService = require('../services/otpService')
 const hashService = require('../services/hashService');
 const userService = require('../services/userService');
 const tokenService = require('../services/tokenService');
-const userDto = require('../dto/userDto');
 
 
 class AuthController {
@@ -83,8 +82,7 @@ class AuthController {
             httpOnly: true,
         });
         
-        const dtouser = new userDto(user);
-        res.status(200).json({ accessToken, dtouser });
+        res.status(200).json({ user: user, auth: true });
     }
 
 }
