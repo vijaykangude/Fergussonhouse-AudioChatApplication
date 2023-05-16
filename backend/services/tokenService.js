@@ -27,6 +27,10 @@ class TokenService{
             console.log(error.message);
         }
     }
+
+    async verifyAccessToken(token){
+        return jwt.verify(token,ACCESS_TOKEN_SECRET);
+    }
 }
 
 

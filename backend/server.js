@@ -4,16 +4,19 @@ require('dotenv').config();
 const routes = require('./routes/routes');
 const cors = require('cors');
 const DbConnect = require('./database');
+const cookieParser = require('cookie-parser');
 
-
+app.use(cookieParser());
 const corsOption = {
+    credentials: true,
     origin: ['http://localhost:3000'],
 };
 
 app.use(cors(corsOption));
-app.use(express.json());
+app.use('/storage', express.static('storage'));
 DbConnect();
 
+app.use(express.json({ limit: '8mb' }));
 app.use(routes);
 
 app.get('/',(req,res)=>{
