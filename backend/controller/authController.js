@@ -64,7 +64,6 @@ class AuthController {
             res.status(500).json({ message: 'Database error' });
         }
 
-        console.log(user);
         const { accessToken, refreshToken } = tokenService.generateTokens({
             _id: user._id,
             activated: false,
@@ -82,6 +81,65 @@ class AuthController {
             httpOnly: true,
         });
         
+        res.status(200).json({ user: user, auth: true });
+    }
+
+
+    async refresh(req, res){
+        const { refreshToken: refreshTokenFromCookie } = req.cookies;
+
+        //check token is valid
+        let userData
+        try {
+            userData = await tokenService.verifyRefreshToken(refreshTokenFromCookie);
+        } catch (error) {
+            return res.status(401).json({ message: "Invalid token"})
+        }
+
+        //check token is present in db
+        try {
+            const token = await tokenService.findRefreshToken(
+                userData._id,
+                refreshTokenFromCookie
+            );
+
+            if(!token){
+                return res.status(401).json({ message: "Invalid token"});
+            }
+        } catch (error) {
+            return res.status(500).json({message: "Internal server error"})
+        }
+
+        //check if valid user
+        const user = await userService.findUser({_id: userData._id});
+        if(!user){
+            return res.status(404).json({ message: 'No user' });
+        }
+
+        //genrate new tokens
+        const { refreshToken, accessToken } = tokenService.generateTokens({
+            _id: user._id,
+            activated: user.activated
+        });
+
+        //update refresh token
+        try {
+            await tokenService.updateRefreshToken(user._id, refreshToken);
+        } catch (err) {
+            return res.status(500).json({ message: 'Internal error' });
+        }
+
+        // put in cookie
+        res.cookie('refreshToken', refreshToken, {
+            maxAge: 1000 * 60 * 60 * 24 * 30,
+            httpOnly: true,
+        });
+
+        res.cookie('accessToken', accessToken, {
+            maxAge: 1000 * 60 * 60 * 24 * 30,
+            httpOnly: true,
+        });
+        // response
         res.status(200).json({ user: user, auth: true });
     }
 

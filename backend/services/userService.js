@@ -3,8 +3,8 @@ const UserModel = require('../model/userModel');
 
 class UserService {
 
-    async findUser(phone) {
-        const user = await UserModel.findOne(phone);
+    async findUser(filter) {
+        const user = await UserModel.findOne(filter);
         return user;
     }
 

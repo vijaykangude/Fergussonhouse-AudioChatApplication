@@ -6,6 +6,7 @@ const activateController = require('../controller/activateController');
 
 router.post('/api/send-otp',authController.sendotp);
 router.post('/api/verify-otp',authController.verifyOtp);
-router.post('/api/activate', authMiddleware, activateController.activate)
+router.post('/api/activate', authMiddleware, activateController.activate);
+router.get('/api/refresh', authController.refresh);
 
 module.exports = router;

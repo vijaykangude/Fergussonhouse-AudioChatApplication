@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 
-const tokenSchema = new Schema(
+const refreshTokenSchema = new Schema(
     {
         refreshToken: { type: String, required: true},
         userId: { type: Schema.Types.ObjectId, ref: 'User', required: true }
@@ -12,4 +12,4 @@ const tokenSchema = new Schema(
     }
 );
 
-module.exports = mongoose.model('refreshToken',tokenSchema,'tokens');
+module.exports = mongoose.model('refreshToken',refreshTokenSchema,'tokens');
