@@ -6,14 +6,22 @@ import Authenticate from './pages/Authenticate/Authenticate';
 import Activate from './pages/Activate/Activate';
 import Rooms from './pages/Rooms/Rooms';
 import { useSelector } from 'react-redux';
+import useLoadingRefresh from './hooks/useLoadingRefresh';
 
 
 function App() {
-    return (
+    //call refresh endpoint
+    const { loading } = useLoadingRefresh();
+
+    return loading ? (
+        <>
+            Loading please wait...
+        </>
+    ) : (
         <BrowserRouter>
             <Navigation />
             <Routes>
-                <Route path="/" element={ <GuestRoute> <Home /> </GuestRoute>} />
+                <Route path="/" element={<GuestRoute> <Home /> </GuestRoute>} />
                 <Route path="/authenticate" element={<GuestRoute><Authenticate /></GuestRoute>} />
                 <Route path="/activate" element={<SemiProtectedRoute><Activate /></SemiProtectedRoute>} />
                 <Route path="/rooms" element={<ProtectedRoute><Rooms /></ProtectedRoute>} />
@@ -31,13 +39,13 @@ const GuestRoute = ({ children }) => {
 
 const SemiProtectedRoute = ({ children, ...rest }) => {
     const { user, isAuth } = useSelector((state) => state.auth);
-    return !isAuth ? (<Navigate to="/" replace />) : (isAuth && !user.activated) ? (children ) : <Navigate to="/rooms" replace />;
+    return !isAuth ? (<Navigate to="/" replace />) : (isAuth && !user.activated) ? (children) : <Navigate to="/rooms" replace />;
 
 };
 
 const ProtectedRoute = ({ children, ...rest }) => {
     const { user, isAuth } = useSelector((state) => state.auth);
-    return !isAuth ? (<Navigate to="/" replace />) : ( isAuth && !user.activated) ? <Navigate to="/activate" replace /> : children;
+    return !isAuth ? (<Navigate to="/" replace />) : (isAuth && !user.activated) ? <Navigate to="/activate" replace /> : children;
 
 };
 
