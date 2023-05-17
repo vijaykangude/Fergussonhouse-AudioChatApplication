@@ -7,6 +7,7 @@ import Activate from './pages/Activate/Activate';
 import Rooms from './pages/Rooms/Rooms';
 import { useSelector } from 'react-redux';
 import useLoadingRefresh from './hooks/useLoadingRefresh';
+import Loader from './components/shared/Loader/Loader'
 
 
 function App() {
@@ -14,9 +15,7 @@ function App() {
     const { loading } = useLoadingRefresh();
 
     return loading ? (
-        <>
-            Loading please wait...
-        </>
+        <Loader message='Loading please wait...'></Loader>
     ) : (
         <BrowserRouter>
             <Navigation />
