@@ -1,6 +1,7 @@
 const Jimp = require('jimp');
 const path = require('path');
 const userService = require('../services/userService');
+const UserDto = require('../dto/userDto');
 
 
 class ActivateController{
@@ -39,7 +40,7 @@ class ActivateController{
             user.name = name;
             user.avatar = `/storage/${imagePath}`;
             user.save();
-            res.json({ user: user, auth: true });
+            res.json({ user: new UserDto(user), auth: true });
         } catch (err) {
             res.status(500).json({ message: 'Something went wrong!' });
         }
