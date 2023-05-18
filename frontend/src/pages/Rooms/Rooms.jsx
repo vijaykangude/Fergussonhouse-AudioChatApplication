@@ -110,7 +110,7 @@ const Rooms = () => {
                 </div>
             </div>
 
-            {showModal && <AddRoomModal/>}
+            {showModal && <AddRoomModal onClose={() => setShowModal(false)}/>}
         </>
     );
 };

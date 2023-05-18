@@ -4,7 +4,7 @@ import TextInput from '../shared/TextInput/TextInput';
 import { useNavigate } from 'react-router-dom';
 
 
-const AddRoomModal = () => {
+const AddRoomModal = ({ onClose }) => {
     const navigate = useNavigate();
 
     const [roomType, setRoomType] = useState('open');
@@ -18,7 +18,7 @@ const AddRoomModal = () => {
         <div className={styles.modalMask}>
 
             <div className={styles.modalBody}>
-                <button className={styles.closeButton}>
+                <button onClick={onClose} className={styles.closeButton}>
                     <img src="/images/close.png" alt="close" />
                 </button>
                 <div className={styles.modalHeader}>
